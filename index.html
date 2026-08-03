@@ -33,6 +33,9 @@
     .hero-eyebrow::before{content:'';display:inline-block;width:28px;height:2px;background:var(--black);}
     .live-dot{width:8px;height:8px;border-radius:50%;background:#10B981;animation:pulse 2s infinite;margin-left:4px;}
     @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(1.4);}}
+    #role-typewriter{color:var(--black);}
+    #role-typewriter::after{content:'';display:inline-block;width:2px;height:11px;background:var(--black);margin-left:2px;vertical-align:-1px;animation:blinkCursor .8s step-end infinite;}
+    @keyframes blinkCursor{0%,100%{opacity:1;}50%{opacity:0;}}
     .hero-hello{font-family:'Playfair Display',serif;font-size:clamp(68px,9vw,110px);font-weight:800;line-height:.92;letter-spacing:-3px;margin-bottom:8px;}
     .hero-sub{font-size:16px;color:var(--gray);font-style:italic;margin-bottom:28px;}
     .hero-desc{font-size:14px;color:var(--gray);max-width:440px;line-height:1.8;margin-bottom:36px;}
@@ -237,7 +240,7 @@
   <canvas id="hero-canvas"></canvas>
   <div class="hero">
     <div class="hero-left reveal">
-      <div class="hero-eyebrow">Data Analyst <span class="live-dot"></span> Open to Work</div>
+      <div class="hero-eyebrow">Aspiring Data Analyst <span class="live-dot"></span> Open to Work as <span id="role-typewriter"></span></div>
       <div class="hero-hello">Hello,</div>
       <div class="hero-sub">— It's Karthik, a data analyst</div>
       <p class="hero-desc">Transforming messy datasets into clear dashboards that help businesses make faster, smarter decisions — using SQL, Python, Power BI &amp; Tableau. Through hands-on project experience, I have gained practical knowledge in understanding business problems and communicating data-driven insights clearly to non-technical stakeholders.</p>
@@ -520,6 +523,47 @@
 </footer>
 
 <script>
+/* ── ROLE TYPEWRITER ── */
+(function(){
+  const roles = [
+    "Junior Data Analyst",
+    "Data Analyst",
+    "Data Analyst Intern",
+    "Business Intelligence (BI) Analyst",
+    "Reporting Analyst",
+    "MIS Analyst",
+    "Operations Analyst",
+    "Data Visualization Analyst",
+    "Business Analyst (Entry Level)",
+    "Product Data Analyst"
+  ];
+  const el = document.getElementById('role-typewriter');
+  if(!el) return;
+  let roleIdx = 0, charIdx = 0, deleting = false;
+
+  function tick(){
+    const current = roles[roleIdx];
+    if(!deleting){
+      charIdx++;
+      el.textContent = current.slice(0, charIdx);
+      if(charIdx === current.length){
+        deleting = true;
+        setTimeout(tick, 1400);
+        return;
+      }
+    } else {
+      charIdx--;
+      el.textContent = current.slice(0, charIdx);
+      if(charIdx === 0){
+        deleting = false;
+        roleIdx = (roleIdx + 1) % roles.length;
+      }
+    }
+    setTimeout(tick, deleting ? 35 : 55);
+  }
+  tick();
+})();
+
 /* ── SMOOTH SCROLL ── */
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
